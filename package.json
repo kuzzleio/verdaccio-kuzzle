@@ -1,0 +1,32 @@
+{
+  "name": "verdaccio-kuzzle",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "description": "Authenticate on verdaccio using kuzzle credentials",
+  "author": "Kuzzle Team <support@kuzzle.io>",
+  "scripts": {
+    "build": "npx tsc",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "kuzzle-sdk": "^7.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuzzleio/verdaccio-kuzzle.git"
+  },
+  "keywords": [
+    "verdaccio",
+    "kuzzle"
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/kuzzleio/verdaccio-kuzzle/issues"
+  },
+  "homepage": "https://github.com/kuzzleio/verdaccio-kuzzle#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.24",
+    "@verdaccio/types": "^10.3.0",
+    "typescript": "^4.6.3"
+  }
+}

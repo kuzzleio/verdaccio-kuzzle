@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  kuzzle:
+    image: kuzzleio/kuzzle:2
+    container_name: "kuzzle"
+    cap_add:
+      - SYS_PTRACE
+    ulimits:
+      nofile: 65536
+    ports:
+      - "7512:7512"
+      - "9229:9229"
+      - "1883:1883"
+    depends_on:
+      - redis
+    environment:
+      - kuzzle_services__storageEngine__client__node=http://elasticsearch:9200
+      - kuzzle_services__storageEngine__commonMapping__dynamic=true
+      - kuzzle_services__internalCache__node__host=redis
+      - kuzzle_services__memoryStorage__node__host=redis
+      - NODE_ENV=${NODE_ENV:-development}
+      - DEBUG=${DEBUG:-none}
+
+  redis:
+    image: redis:5
+    container_name: "redis"
+
+  elasticsearch:
+    image: kuzzleio/elasticsearch:7
+    container_name: "elasticsearch"
+    ulimits:
+      nofile: 65536
+  
+  verdaccio:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: "verdaccio"
+    environment:
+      - VERDACCIO_PORT=4873
+    ports:
+      - "4873:4873"
+    volumes:
+      - "./storage:/verdaccio/storage"
+      - "./config:/verdaccio/conf"
+      - "./plugins:/verdaccio/plugins"
