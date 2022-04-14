@@ -1,4 +1,4 @@
-import { Callback, Logger, IPluginAuth } from "@verdaccio/types";
+import { AuthCallback, Logger, IPluginAuth } from "@verdaccio/types";
 import { Kuzzle, WebSocket } from "kuzzle-sdk";
 
 interface IKuzzleAuthConfig {
@@ -19,7 +19,7 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
     );
   }
 
-  authenticate(user: string, password: string, cb: Callback): void {
+  authenticate(user: string, password: string, cb: AuthCallback): void {
     const { url, port } = this.config;
     this.logger.info(`KuzzleAuth authenticate ${user}`);
     const kuzzle = new Kuzzle(new WebSocket(url, { port }));
@@ -31,20 +31,24 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
         kuzzle.auth
           .login("local", { username: user, password })
           .then((response) => {
-            this.logger.info(`KuzzleAuth login success for ${user} with reponse ${JSON.stringify(response)}`);
-            const groups: string[] = [];
-            kuzzle.disconnect();
-            cb(null, groups);
+            this.logger.info(
+              `KuzzleAuth login success for ${user} with reponse ${JSON.stringify(
+                response
+              )}`
+            );
+            cb(null, ["$authenticated"]);
           })
           .catch((err: any) => {
             this.logger.error(err);
-            kuzzle.disconnect();
             cb(null, false);
-          })
+          });
       })
       .catch((err: any) => {
         this.logger.error(err);
         cb(null, false);
+      })
+      .finally(() => {
+        kuzzle.disconnect();
       });
   }
 }
