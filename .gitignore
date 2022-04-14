@@ -2,4 +2,3 @@ node_modules
 .terraform
 secrets.json
 .env
-lib
