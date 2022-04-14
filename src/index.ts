@@ -12,9 +12,12 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
   constructor(config: IKuzzleAuthConfig, logger: Logger) {
     this.logger = logger;
     this.config = config;
+
+    this.logger.info(`KuzzleAuth initialized with config ${JSON.stringify(config)}`);
   }
 
   authenticate(user: string, password: string, cb: Callback): void {
+    this.logger.info(`KuzzleAuth authenticate ${user}`);
     const { url } = this.config;
     const kuzzle = new Kuzzle(new WebSocket(url));
 

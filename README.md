@@ -20,3 +20,16 @@ an administration console and a set of plugins that provide advanced functionali
 | Kuzzle Version | Plugin Version |
 | -------------- | -------------- |
 | >= 2           | 1.x.x          |
+
+## Tests
+
+To test it with a local kuzzle
+
+```sh
+docker-compose up --build
+```
+
+* Then Kuzzle should be up at port 7512
+* Then Verdaccio should be up at port 4873
+
+1. Create a user on kuzzle, then try to login with it on verdaccio UI.
