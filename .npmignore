@@ -1,4 +1,7 @@
 src/
 example/
+storage/
+config/
+docker/
 tsconfig.json
 docker-compose.yaml

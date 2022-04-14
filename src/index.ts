@@ -22,19 +22,26 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
     this.logger.info(`KuzzleAuth authenticate ${user}`);
     const { url } = this.config;
     const kuzzle = new Kuzzle(new WebSocket(url));
-
-    kuzzle.auth
-      .login("local", { username: user, password })
+    kuzzle
+      .connect()
       .then(() => {
-        const groups: string[] = [];
-        cb(null, groups);
+        kuzzle.auth
+          .login("local", { username: user, password })
+          .then(() => {
+            const groups: string[] = [];
+            cb(null, groups);
+          })
+          .catch((err: any) => {
+            this.logger.error(err);
+            cb(null, false);
+          })
+          .finally(() => {
+            kuzzle.disconnect();
+          });
       })
       .catch((err: any) => {
         this.logger.error(err);
         cb(null, false);
-      })
-      .finally(() => {
-        kuzzle.disconnect();
       });
   }
 }
