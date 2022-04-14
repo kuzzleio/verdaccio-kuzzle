@@ -41,14 +41,15 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
           .catch((err: any) => {
             this.logger.error(err);
             cb(null, false);
+          })
+          .finally(() => {
+            kuzzle.disconnect();
           });
       })
       .catch((err: any) => {
         this.logger.error(err);
-        cb(null, false);
-      })
-      .finally(() => {
         kuzzle.disconnect();
+        cb(null, false);
       });
   }
 }
