@@ -2,7 +2,7 @@ FROM verdaccio/verdaccio:5 as builder
 USER root
 ENV NODE_ENV=production
 
-RUN npm i --global-style verdaccio-kuzzle@1.0.8
+RUN npm i --global-style verdaccio-kuzzle@1.0.9
 
 FROM verdaccio/verdaccio:5
 COPY config/config.yaml /verdaccio/conf/config.yaml
