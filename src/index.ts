@@ -9,11 +9,13 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
   private logger: Logger;
   private config: IKuzzleAuthConfig;
 
-  constructor(config: IKuzzleAuthConfig, logger: Logger) {
+  constructor(config: IKuzzleAuthConfig, { logger }: { logger: Logger }) {
     this.logger = logger;
     this.config = config;
 
-    this.logger.info(`KuzzleAuth initialized with config ${JSON.stringify(config)}`);
+    this.logger.info(
+      `KuzzleAuth initialized with config ${JSON.stringify(config)}`
+    );
   }
 
   authenticate(user: string, password: string, cb: Callback): void {
@@ -21,7 +23,7 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
     const { url } = this.config;
     const kuzzle = new Kuzzle(new WebSocket(url));
 
-    kuzzle
+    kuzzle.auth
       .login("local", { username: user, password })
       .then(() => {
         const groups: string[] = [];
