@@ -17,8 +17,8 @@
     title: Verdaccio
   auth:
     kuzzle:
-      url: localhost
-      port: 7512
+      url: api.console.paas.kuzzle.io
+      port: 443
   # a list of other known repositories we can talk to
   uplinks:
     npmjs:
