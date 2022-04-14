@@ -9,7 +9,7 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
   private logger: Logger;
   private config: IKuzzleAuthConfig;
 
-  constructor(logger: Logger, config: IKuzzleAuthConfig) {
+  constructor(config: IKuzzleAuthConfig, logger: Logger) {
     this.logger = logger;
     this.config = config;
   }

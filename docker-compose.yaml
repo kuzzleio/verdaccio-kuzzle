@@ -36,6 +36,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
+    # command: ["sleep", "60000"]
     container_name: "verdaccio"
     environment:
       - VERDACCIO_PORT=4873
@@ -43,5 +44,3 @@ services:
       - "4873:4873"
     volumes:
       - "./storage:/verdaccio/storage"
-      - "./config:/verdaccio/conf"
-      - "./plugins:/verdaccio/plugins"
