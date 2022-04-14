@@ -3,6 +3,7 @@ import { Kuzzle, WebSocket } from "kuzzle-sdk";
 
 interface IKuzzleAuthConfig {
   url: string;
+  port: number;
 }
 
 export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
@@ -19,9 +20,10 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
   }
 
   authenticate(user: string, password: string, cb: Callback): void {
-    this.logger.info(`KuzzleAuth authenticate ${user}`);
-    const { url } = this.config;
-    const kuzzle = new Kuzzle(new WebSocket(url));
+    const { url, port } = this.config;
+    this.logger.info(`KuzzleAuth authenticate ${user} with ${url}:${port}`);
+    const kuzzle = new Kuzzle(new WebSocket(url, { port }));
+
     kuzzle
       .connect()
       .then(() => {
