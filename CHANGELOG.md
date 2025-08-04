@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/kuzzleio/verdaccio-kuzzle/compare/v1.2.1...v1.2.2) (2025-08-04)
+
+
+### Bug Fixes
+
+* issue when disconnecting from kuzzle ([7054d7e](https://github.com/kuzzleio/verdaccio-kuzzle/commit/7054d7e4c4702a851e93086f785e3143fd240119))
+
 ## [1.2.1](https://github.com/kuzzleio/verdaccio-kuzzle/compare/v1.2.0...v1.2.1) (2025-08-04)
 
 
