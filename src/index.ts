@@ -69,11 +69,6 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
     }
   }
 
-  private async logOutFromKuzzle(kuzzle: Kuzzle) {
-    await kuzzle.auth.logout();
-    kuzzle.disconnect();
-  }
-
   public authenticate(user: string, password: string, cb: AuthCallback): void {
     const { url, port } = this.config;
     this.logger.info(`KuzzleAuth authenticate ${user}`);
@@ -88,19 +83,24 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
           })
           .then((currentUser) => {
             this.processCurrentUser(currentUser).then((isAuthorized) => {
-              this.logOutFromKuzzle(kuzzle).then(() => {
-                if (isAuthorized) {
-                  cb(null, ["$authenticated"]);
-                } else {
-                  cb(null, false);
-                }
-              });
+              if (isAuthorized) {
+                cb(null, ["$authenticated"]);
+              } else {
+                cb(null, false);
+              }
             });
+          })
+          .catch((err: any) => {
+            this.logger.error(`Authentication failed: ${err.message}`);
+            cb(null, false);
           });
       })
       .catch((err: any) => {
         this.logger.error(err);
         cb(null, false);
+      })
+      .finally(() => {
+        kuzzle.disconnect();
       });
   }
 }
