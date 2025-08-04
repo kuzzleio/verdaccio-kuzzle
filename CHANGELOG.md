@@ -1,3 +1,10 @@
+## [1.2.0](https://github.com/kuzzleio/verdaccio-kuzzle/compare/v1.1.1...v1.2.0) (2025-08-04)
+
+
+### Features
+
+* update to verdaccio v6 ([412592b](https://github.com/kuzzleio/verdaccio-kuzzle/commit/412592b4e60b90ae2de767a97064ecc7f57330ef))
+
 ## [1.1.1](https://github.com/kuzzleio/verdaccio-kuzzle/compare/v1.1.0...v1.1.1) (2025-08-04)
 
 
