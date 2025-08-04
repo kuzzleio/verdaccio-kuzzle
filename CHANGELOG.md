@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/kuzzleio/verdaccio-kuzzle/compare/v1.1.0...v1.1.1) (2025-08-04)
+
+
+### Bug Fixes
+
+* required and not supplied: token error ([415653d](https://github.com/kuzzleio/verdaccio-kuzzle/commit/415653d1a1bccb6c8848501fef4ccf9960b93e9e))
+
 ## [1.1.0](https://github.com/kuzzleio/verdaccio-kuzzle/compare/v1.0.9...v1.1.0) (2025-08-04)
 
 
