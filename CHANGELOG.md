@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/kuzzleio/verdaccio-kuzzle/compare/v1.2.0...v1.2.1) (2025-08-04)
+
+
+### Bug Fixes
+
+* token expired  error in loggin ([7350ecd](https://github.com/kuzzleio/verdaccio-kuzzle/commit/7350ecd57c3a40b0a14f03e557fbcac019b46a5c))
+
 ## [1.2.0](https://github.com/kuzzleio/verdaccio-kuzzle/compare/v1.1.1...v1.2.0) (2025-08-04)
 
 
