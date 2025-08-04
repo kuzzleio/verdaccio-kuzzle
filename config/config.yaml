@@ -17,7 +17,7 @@ uplinks:
     url: https://npm.pkg.github.com
     auth:
       type: bearer
-      token: <token goes here>
+      token: <change-me>
 packages:
   "@org/*":
     access: $authenticated
