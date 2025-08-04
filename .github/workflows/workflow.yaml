@@ -5,13 +5,14 @@ on:
 
   workflow_dispatch:
     inputs:
-
       npm_deploy:
         description: "Deploy to NPM"
         required: true
         default: true
         type: boolean
-
+  push:
+    branches:
+      - master
 jobs:
   npm-deploy:
     name: Build and deploy release on NPM.js
@@ -28,10 +29,10 @@ jobs:
       - name: Install additional libraries
         uses: ./.github/actions/install-packages
 
-      - name: Node version 14
+      - name: Node version 22
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: 22
           registry-url: "https://registry.npmjs.org"
           scope: "@kuzzleio"
 

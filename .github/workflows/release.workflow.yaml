@@ -1,0 +1,32 @@
+name: Release workflow
+
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  push_verdaccio:
+    name: Build Verdaccio custom image
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Login to registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.REGISTRY_URL }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          build-args: |
+            VERDACCIO_KUZZLE_VERSION=${{ github.ref_name }}
+          file: docker/Dockerfile
+          context: .
+          push: true
+          tags: ${{ secrets.REGISTRY_URL }}/verdaccio-kuzzle:${{ github.ref_name }}
