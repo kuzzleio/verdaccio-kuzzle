@@ -54,12 +54,12 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
       }
 
       this.logger.info(
-        `KuzzleAuth user ${user} has profiles: ${profileIds.join(", ")}`
+        `KuzzleAuth user ${user._id} has profiles: ${profileIds.join(", ")}`
       );
 
       if (!profileIds.includes("license-user")) {
         throw new Error(
-          `User ${user} is not authorized with license-user profile`
+          `User ${user._id} is not authorized with license-user profile`
         );
       }
 
@@ -99,8 +99,5 @@ export default class KuzzleAuth implements IPluginAuth<IKuzzleAuthConfig> {
         this.logger.error(err);
         cb(null, false);
       })
-      .finally(() => {
-        kuzzle.disconnect();
-      });
   }
 }
