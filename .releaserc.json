@@ -3,6 +3,10 @@
     "semantic-release-config-kuzzle"
   ],
   "branches": [
-    "master"
+    "master",
+    {
+      "name": "develop",
+      "prerelease": true
+    }
   ]
 }

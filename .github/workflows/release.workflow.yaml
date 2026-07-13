@@ -4,6 +4,7 @@ on:
   release:
     types:
       - released
+      - prereleased
 
 jobs:
   push_verdaccio:
@@ -19,6 +20,17 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
+      - name: Compute image tags
+        id: tags
+        run: |
+          IMAGE="${{ secrets.REGISTRY_URL }}/verdaccio-kuzzle"
+          TAGS="$IMAGE:${{ github.ref_name }}"
+          if [ "${{ github.event.release.prerelease }}" = "true" ]; then
+            # Moving tag so staging always pulls the latest prerelease
+            TAGS="$TAGS,$IMAGE:develop"
+          fi
+          echo "tags=$TAGS" >> "$GITHUB_OUTPUT"
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -27,4 +39,4 @@ jobs:
           file: docker/Dockerfile
           context: .
           push: true
-          tags: ${{ secrets.REGISTRY_URL }}/verdaccio-kuzzle:${{ github.ref_name }}
+          tags: ${{ steps.tags.outputs.tags }}
