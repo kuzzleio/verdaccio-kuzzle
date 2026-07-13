@@ -13,10 +13,11 @@ on:
   push:
     branches:
       - master
+      - develop
 jobs:
   npm-deploy:
     name: Build and deploy release on NPM.js
-    if: ${{ (github.event_name != 'workflow_dispatch' || inputs.npm_deploy) && (github.ref_name == 'master') }}
+    if: ${{ (github.event_name != 'workflow_dispatch' || inputs.npm_deploy) && (github.ref_name == 'master' || github.ref_name == 'develop') }}
     runs-on: ubuntu-24.04
     permissions:
       contents: write
