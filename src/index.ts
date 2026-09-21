@@ -83,8 +83,18 @@ export default class KuzzleAuth
     this.logger = logger;
     this.config = config;
 
+    // NEVER stringify `config` as a whole. Verdaccio does not hand a plugin its
+    // own section only: the object it passes is the **merged global config**,
+    // so it carries `uplinks.*.auth.token` (the GitHub Packages PAT) and
+    // `secret` (the instance's JWT signing key). Both were printed in clear on
+    // stdout at every boot, and stdout is whatever reads the pod's logs.
+    // See https://github.com/kuzzleio/paas-console/issues/525.
     this.logger.info(
-      `KuzzleAuth initialized with config ${JSON.stringify(config)}`
+      `KuzzleAuth initialized with config ${JSON.stringify({
+        url: config.url,
+        port: config.port,
+        deprecationNotice: config.deprecationNotice,
+      })}`
     );
   }
 
