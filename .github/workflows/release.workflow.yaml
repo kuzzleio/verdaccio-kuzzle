@@ -30,12 +30,33 @@ jobs:
             TAGS="$TAGS,$IMAGE:develop"
           fi
           echo "tags=$TAGS" >> "$GITHUB_OUTPUT"
+          # Git tags carry a leading `v`, npm versions do not.
+          echo "npm_version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for the version to be installable from npm
+        # `npm publish` returns before the version is servable — npm says so itself:
+        # "Your package is being processed and may take a few minutes to become
+        # available", and provenance signing widens that window. This job installs
+        # the package by exact version, so without the wait it fails on ETARGET and
+        # has to be re-run by hand. That happened to both releases of 2026-09-21
+        # (`1.3.0-develop.2`, then `1.3.1` — nine minutes for the latter).
+        run: |
+          VERSION="${{ steps.tags.outputs.npm_version }}"
+          for attempt in $(seq 1 90); do
+            if curl -sSf -o /dev/null "https://registry.npmjs.org/verdaccio-kuzzle/$VERSION"; then
+              echo "verdaccio-kuzzle@$VERSION is installable (attempt $attempt)"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::verdaccio-kuzzle@$VERSION still absent from the registry after 15 minutes"
+          exit 1
 
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           build-args: |
-            VERDACCIO_KUZZLE_VERSION=${{ github.ref_name }}
+            VERDACCIO_KUZZLE_VERSION=${{ steps.tags.outputs.npm_version }}
           file: docker/Dockerfile
           context: .
           push: true
