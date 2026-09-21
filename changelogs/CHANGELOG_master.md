@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/kuzzleio/verdaccio-kuzzle/compare/v1.3.0...v1.3.1) (2026-09-21)
+
+### Bug Fixes
+
+* **security:** stop printing the whole Verdaccio config at boot ([#6](https://github.com/kuzzleio/verdaccio-kuzzle/issues/6)) ([3f8876f](https://github.com/kuzzleio/verdaccio-kuzzle/commit/3f8876faa483a76a924396e28e6b011f06a80dc9))
+
 ## [1.3.0](https://github.com/kuzzleio/verdaccio-kuzzle/compare/v1.2.3...v1.3.0) (2026-07-14)
 
 ### Features
